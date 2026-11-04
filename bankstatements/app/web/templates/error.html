@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Error {{ error_code }} - BeFree{% endblock %}
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6 text-center">
+        <h1 class="display-1 text-danger">{{ error_code }}</h1>
+        <p class="lead">{{ error_message }}</p>
+        <a href="/" class="btn btn-primary mt-3">Return to Dashboard</a>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}Categories & Classification Rules - Bank Statement Processing{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h3 class="fw-bold mb-0">Categories & Classification Rules</h3>
+    <p class="text-muted small mb-0">Manage spending categories and keyword pattern rules</p>
+  </div>
+  <div class="d-flex gap-2">
+    <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#categoryModal">
+      <i class="bi bi-plus-circle me-1"></i> New Category
+    </button>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ruleModal">
+      <i class="bi bi-plus-circle me-1"></i> New Rule
+    </button>
+  </div>
+</div>
+
+<!-- Categories Grid -->
+<div class="mb-5">
+  <h5 class="fw-bold mb-3">Categories</h5>
+  <div class="row g-3" id="categoriesListContainer">
+    <div class="col-12 text-center py-3 text-muted">Loading categories...</div>
+  </div>
+</div>
+
+<!-- Rules Table -->
+<div>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="fw-bold mb-0">Keyword Rules</h5>
+  </div>
+  <div class="card shadow-sm border-0">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Keyword</th>
+              <th>Category</th>
+              <th>Match Type</th>
+              <th>Direction</th>
+              <th>Priority</th>
+              <th>Rule Type</th>
+              <th class="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="rulesTableBody">
+            <tr>
+              <td colspan="7" class="text-center py-4 text-muted">Loading rules...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: New Category -->
+<div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="catModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold" id="catModalLabel">Add Custom Category</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label small fw-bold">Category Name</label>
+          <input type="text" class="form-control" id="categoryNameInput" placeholder="e.g. Subscriptions">
+        </div>
+        <div class="mb-3">
+          <label class="form-label small fw-bold">Badge Color</label>
+          <input type="color" class="form-control form-control-color" id="categoryColorInput" value="#6B7280" title="Choose color">
+        </div>
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="checkbox" id="categoryTransferCheck">
+          <label class="form-check-label small" for="categoryTransferCheck">
+            Treat as Internal Transfer (excluded from income/expenses)
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="saveCategoryBtn">Save Category</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: New Rule -->
+<div class="modal fade" id="ruleModal" tabindex="-1" aria-labelledby="ruleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold" id="ruleModalLabel">Add Classification Rule</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label small fw-bold">Category</label>
+          <select class="form-select" id="ruleCategorySelect"></select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label small fw-bold">Keyword Pattern</label>
+          <input type="text" class="form-control" id="ruleKeywordInput" placeholder="e.g. netflix">
+        </div>
+        <div class="mb-3">
+          <label class="form-label small fw-bold">Match Type</label>
+          <select class="form-select" id="ruleMatchTypeSelect">
+            <option value="partial">Partial (Substring)</option>
+            <option value="exact">Exact (Word Boundary)</option>
+            <option value="regex">Regular Expression</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label small fw-bold">Priority (Higher number wins)</label>
+          <input type="number" class="form-control" id="rulePriorityInput" value="500">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="saveRuleBtn">Save Rule</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="module">
+  import { initCategoriesView } from "{{ url_for('static', filename='js/categories.js') }}";
+  initCategoriesView();
+</script>
+{% endblock %}

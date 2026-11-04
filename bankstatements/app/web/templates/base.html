@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <title>{% block title %}Bank Statement Processing{% endblock %}</title>
+
+  <!-- Pinned jsDelivr Bootstrap 5.3 & Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+</head>
+<body class="bg-body-tertiary">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand fw-bold" href="/">
+        <i class="bi bi-wallet2 me-2"></i>BankStatement AI
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="/">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.path.startswith('/statements') %}active{% endif %}" href="/statements">Statements</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.path.startswith('/transactions') %}active{% endif %}" href="/transactions">Transactions</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.path.startswith('/categories') %}active{% endif %}" href="/categories">Categories & Rules</a>
+          </li>
+        </ul>
+        <div class="d-flex align-items-center">
+          <button id="themeToggleBtn" class="btn btn-outline-light btn-sm" type="button" aria-label="Toggle theme">
+            <i class="bi bi-moon-stars" id="themeIcon"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content Container -->
+  <main class="container-fluid px-4 py-4">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-body py-3 border-top mt-auto">
+    <div class="container-fluid px-4 text-center text-muted small">
+      Bank Statement Processing & Classification System • Assessment Build • No Generative LLMs
+    </div>
+  </footer>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer"></div>
+
+  <!-- Pinned jsDelivr JS bundles -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+
+  <!-- Theme Toggle Script (External vanilla logic) -->
+  <script type="module">
+    const toggleBtn = document.getElementById('themeToggleBtn');
+    const themeIcon = document.getElementById('themeIcon');
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-bs-theme', currentTheme);
+    if (themeIcon) {
+      themeIcon.className = currentTheme === 'dark' ? 'bi bi-sun' : 'bi bi-moon-stars';
+    }
+
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', () => {
+        const active = document.documentElement.getAttribute('data-bs-theme');
+        const next = active === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-bs-theme', next);
+        localStorage.setItem('theme', next);
+        if (themeIcon) {
+          themeIcon.className = next === 'dark' ? 'bi bi-sun' : 'bi bi-moon-stars';
+        }
+      });
+    }
+  </script>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>

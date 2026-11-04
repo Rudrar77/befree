@@ -1,0 +1,24 @@
+=========================================
+   UNSEEN TRANSACTION ROBUSTNESS TEST V3
+=========================================
+
+Total Unseen Test Cases: 35
+Number Correct:          33
+Number Incorrect:        2
+Overall Accuracy:        94.29%
+Average Confidence:      0.8314
+
+=========================================
+          INCORRECT PREDICTIONS
+=========================================
+
+Description:  'Netflix Monthly Subscription'
+Expected:     Entertainment
+Predicted:    Bank Charges
+Confidence:   0.7496
+----------------------------------------
+Description:  'POS Card Purchase at H&M'
+Expected:     Shopping
+Predicted:    Utilities
+Confidence:   0.1297
+----------------------------------------

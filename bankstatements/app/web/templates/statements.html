@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Statements - Bank Statement Processing{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h3 class="fw-bold mb-0">Bank Statements</h3>
+    <p class="text-muted small mb-0">Upload, manage, and process bank statement PDFs and images</p>
+  </div>
+</div>
+
+<!-- Upload Section -->
+<div class="card shadow-sm border-0 mb-4">
+  <div class="card-body p-4">
+    <div class="dropzone mb-3" id="dropzone" role="button" tabindex="0" aria-label="Choose bank statement files">
+      <i class="bi bi-cloud-arrow-up fs-1 text-primary mb-2 d-block"></i>
+      <h5 class="fw-bold mb-1">Drag & Drop Statements Here</h5>
+      <p class="text-muted small mb-0" id="uploadHelp">PDF, JPG, JPEG, or PNG bank statements (max 50MB each)</p>
+      <input type="file" id="fileInput" class="d-none" multiple accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png">
+    </div>
+
+    <!-- Selected Files List -->
+    <div class="list-group mb-3" id="fileList"></div>
+
+    <!-- Upload Buttons -->
+    <div class="d-flex justify-content-end gap-2">
+      <button class="btn btn-outline-primary" id="uploadBtn" disabled>
+        <i class="bi bi-upload me-1"></i> Upload
+      </button>
+      <button class="btn btn-primary" id="uploadAndProcessBtn" disabled>
+        <i class="bi bi-play-circle me-1"></i> Upload & Process
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Statements List Section -->
+<div class="card shadow-sm border-0">
+  <div class="card-header bg-transparent d-flex justify-content-between align-items-center py-3">
+    <h5 class="fw-bold mb-0">All Statements</h5>
+    <div class="d-flex gap-2">
+      <select class="form-select form-select-sm" id="statusFilterSelect" style="width: 180px;">
+        <option value="">All Statuses</option>
+        <option value="uploaded">Uploaded</option>
+        <option value="queued">Queued</option>
+        <option value="processing">Processing</option>
+        <option value="completed">Completed</option>
+        <option value="completed_with_warnings">Completed with Warnings</option>
+        <option value="failed">Failed</option>
+      </select>
+    </div>
+  </div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Filename</th>
+            <th>Bank</th>
+            <th>Period</th>
+            <th>Status</th>
+            <th>Transactions</th>
+            <th>Review</th>
+            <th>Uploaded</th>
+            <th class="text-end">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="statementsTableBody">
+          <tr>
+            <td colspan="8" class="text-center py-4 text-muted">Loading statements...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card-footer bg-transparent py-3 d-flex justify-content-between align-items-center" id="statementsPagination"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="module">
+  import { initUploadComponent } from "{{ url_for('static', filename='js/upload.js') }}";
+  import { loadStatements } from "{{ url_for('static', filename='js/statements.js') }}";
+
+  initUploadComponent({
+    onSuccess: () => loadStatements(1),
+  });
+
+  const filter = document.getElementById('statusFilterSelect');
+  if (filter) {
+    filter.addEventListener('change', () => {
+      loadStatements(1, filter.value);
+    });
+  }
+
+  loadStatements(1);
+</script>
+{% endblock %}

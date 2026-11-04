@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local configuration and runtime data
+.env
+bankstatements/instance/
+bankstatements/uploads/
+bankstatements/test_uploads/
+bankstatements/**/*.db
+bankstatements/**/*.db-*
+
+# Potentially sensitive training transactions
+model/data/bank_transaction_training_dataset.csv

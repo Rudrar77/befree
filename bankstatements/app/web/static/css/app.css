@@ -1,0 +1,108 @@
+/* Bank Statement Processing Application Custom Styles */
+
+:root {
+  --app-font-tabular: "Courier New", Courier, monospace;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+footer {
+  flex-shrink: 0;
+}
+
+/* Tabular numerals for financial amounts */
+.font-tabular {
+  font-family: var(--app-font-tabular);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Upload dropzone */
+.dropzone {
+  border: 2px dashed var(--bs-border-color);
+  border-radius: 0.75rem;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  background-color: var(--bs-tertiary-bg);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.dropzone.dragover {
+  border-color: var(--bs-primary);
+  background-color: rgba(var(--bs-primary-rgb), 0.1);
+  transform: scale(1.01);
+}
+
+/* Status pill indicator */
+.badge-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+/* Responsive tables */
+.table-responsive {
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.transaction-description-cell {
+  min-width: 260px;
+  max-width: 480px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+#drawerDesc,
+#drawerOrigDesc {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* Transaction drawer slide-in */
+.drawer-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
+}
+
+.offcanvas-end {
+  width: 480px;
+  max-width: 90vw;
+}
+
+/* Toast container positioning */
+.toast-container {
+  z-index: 1090;
+}
+
+/* Progress bar animation */
+.progress-bar-animated-custom {
+  transition: width 0.4s ease;
+}
+
+/* Mismatch prominent banner */
+.banner-mismatch {
+  border-left: 5px solid var(--bs-danger);
+  background-color: rgba(var(--bs-danger-rgb), 0.08);
+}
+
+.banner-matched {
+  border-left: 5px solid var(--bs-success);
+  background-color: rgba(var(--bs-success-rgb), 0.08);
+}

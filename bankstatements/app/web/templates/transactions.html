@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}Transactions - Bank Statement Processing{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h3 class="fw-bold mb-0">All Transactions</h3>
+    <p class="text-muted small mb-0">View, search, filter, and manually recategorize transactions</p>
+  </div>
+</div>
+
+<!-- Filters Panel -->
+<div class="card shadow-sm border-0 mb-3">
+  <div class="card-body p-3">
+    <div class="row g-2">
+      <div class="col-md-3">
+        <input type="text" class="form-control form-control-sm" id="searchQuery" placeholder="Search description, reference...">
+      </div>
+      <div class="col-md-2">
+        <select class="form-select form-select-sm" id="filterCategory">
+          <option value="">All Categories</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <select class="form-select form-select-sm" id="filterMethod">
+          <option value="">All Methods</option>
+          <option value="rule">Rule Engine</option>
+          <option value="ml">Machine Learning</option>
+          <option value="manual">Manual</option>
+          <option value="none">None</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <select class="form-select form-select-sm" id="filterValidation">
+          <option value="">Validation Status</option>
+          <option value="valid">Valid</option>
+          <option value="warning">Warning</option>
+          <option value="error">Error</option>
+        </select>
+      </div>
+      <div class="col-md-1">
+        <select class="form-select form-select-sm" id="filterReview">
+          <option value="">Review</option>
+          <option value="true">Needs Review</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <select class="form-select form-select-sm" id="sortSelect">
+          <option value="date_desc">Date (Newest)</option>
+          <option value="date_asc">Date (Oldest)</option>
+          <option value="amount_desc">Amount (Highest)</option>
+          <option value="confidence_desc">Confidence</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Transactions Table -->
+<div class="card shadow-sm border-0">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th class="text-end">Debit (₹)</th>
+            <th class="text-end">Credit (₹)</th>
+            <th class="text-end">Balance (₹)</th>
+            <th>Category</th>
+            <th>Method</th>
+          </tr>
+        </thead>
+        <tbody id="transactionsTableBody">
+          <tr>
+            <td colspan="7" class="text-center py-4 text-muted">Loading transactions...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card-footer bg-transparent py-3 d-flex justify-content-between align-items-center" id="txnPagination"></div>
+</div>
+
+<!-- Transaction Drawer -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="transactionDrawer" aria-labelledby="drawerLabel">
+  <div class="offcanvas-header border-bottom">
+    <h5 class="offcanvas-title fw-bold" id="drawerLabel">Transaction Details</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <dl class="row mb-3">
+      <dt class="col-4 text-muted small">Date</dt>
+      <dd class="col-8" id="drawerDate">—</dd>
+
+      <dt class="col-4 text-muted small">Normalized</dt>
+      <dd class="col-8 fw-bold" id="drawerDesc">—</dd>
+
+      <dt class="col-4 text-muted small">Raw Text</dt>
+      <dd class="col-8 small font-monospace" id="drawerOrigDesc">—</dd>
+
+      <dt class="col-4 text-muted small">Debit</dt>
+      <dd class="col-8 font-tabular text-danger" id="drawerDebit">—</dd>
+
+      <dt class="col-4 text-muted small">Credit</dt>
+      <dd class="col-8 font-tabular text-success" id="drawerCredit">—</dd>
+
+      <dt class="col-4 text-muted small">Balance</dt>
+      <dd class="col-8 font-tabular" id="drawerBalance">—</dd>
+
+      <dt class="col-4 text-muted small">Reference</dt>
+      <dd class="col-8 font-monospace" id="drawerRef">—</dd>
+
+      <dt class="col-4 text-muted small">Transaction ID</dt>
+      <dd class="col-8 font-monospace" id="drawerTransactionId">—</dd>
+
+      <dt class="col-4 text-muted small">Mode</dt>
+      <dd class="col-8" id="drawerMode">—</dd>
+
+      <dt class="col-4 text-muted small">Method</dt>
+      <dd class="col-8" id="drawerMethod">—</dd>
+
+      <dt class="col-4 text-muted small">Source</dt>
+      <dd class="col-8" id="drawerSourcePage">—</dd>
+
+      <dt class="col-4 text-muted small">Extraction confidence</dt>
+      <dd class="col-8" id="drawerExtractionConfidence">—</dd>
+    </dl>
+
+    <h6 class="fw-bold small text-muted text-uppercase mb-2">Warnings</h6>
+    <ul class="small mb-3" id="drawerWarningsList"></ul>
+
+    <h6 class="fw-bold small text-muted text-uppercase mb-2">Anomaly Flags</h6>
+    <ul class="small mb-3" id="drawerAnomalyList"></ul>
+
+    <h6 class="fw-bold small text-muted text-uppercase mb-2">Notes</h6>
+    <div class="mb-3">
+      <textarea class="form-control form-control-sm" id="drawerNotesInput" rows="3" placeholder="Add custom notes for this transaction..."></textarea>
+      <button class="btn btn-sm btn-outline-primary mt-2" id="drawerSaveNotesBtn">Save Notes</button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="module">
+  import { initTransactionsView } from "{{ url_for('static', filename='js/transactions.js') }}";
+  initTransactionsView(null);
+</script>
+{% endblock %}

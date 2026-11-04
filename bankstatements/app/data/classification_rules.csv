@@ -1,0 +1,772 @@
+keyword,category,match_type,priority,direction
+cash back,Refunds & Reversals,partial,950,credit
+cashback,Refunds & Reversals,partial,950,credit
+charge back,Refunds & Reversals,partial,950,credit
+chargeback,Refunds & Reversals,partial,950,credit
+failed txn,Refunds & Reversals,partial,950,credit
+refund,Refunds & Reversals,partial,950,credit
+rev upi,Refunds & Reversals,partial,950,credit
+reversal,Refunds & Reversals,partial,950,credit
+reversed,Refunds & Reversals,partial,950,credit
+rvsl,Refunds & Reversals,exact,950,credit
+txn reversal,Refunds & Reversals,partial,950,credit
+upi reversal,Refunds & Reversals,partial,950,credit
+by cash,Cash Deposit,partial,900,credit
+cash dep,Cash Deposit,partial,900,credit
+cash deposit,Cash Deposit,partial,900,credit
+cash deposit machine,Cash Deposit,partial,900,credit
+cdm,Cash Deposit,exact,900,credit
+amc charges,Bank Charges & Fees,partial,850,debit
+annual maintenance,Bank Charges & Fees,partial,850,debit
+atm annual,Bank Charges & Fees,partial,850,debit
+bank charges,Bank Charges & Fees,partial,850,debit
+card fee,Bank Charges & Fees,partial,850,debit
+cheque return,Bank Charges & Fees,partial,850,debit
+chgs,Bank Charges & Fees,exact,850,debit
+chq return,Bank Charges & Fees,partial,850,debit
+chrgs,Bank Charges & Fees,partial,850,debit
+convenience fee,Bank Charges & Fees,partial,850,debit
+debit card annual,Bank Charges & Fees,partial,850,debit
+debit card fee,Bank Charges & Fees,partial,850,debit
+ecs return,Bank Charges & Fees,partial,850,debit
+inward return,Bank Charges & Fees,partial,850,debit
+late fee,Bank Charges & Fees,partial,850,debit
+late payment,Bank Charges & Fees,partial,850,debit
+locker rent,Bank Charges & Fees,partial,850,debit
+min bal,Bank Charges & Fees,partial,850,debit
+minimum balance,Bank Charges & Fees,partial,850,debit
+non maintenance,Bank Charges & Fees,partial,850,debit
+penalty,Bank Charges & Fees,partial,850,debit
+processing fee,Bank Charges & Fees,partial,850,debit
+return charges,Bank Charges & Fees,partial,850,debit
+service charge,Bank Charges & Fees,partial,850,debit
+sms alert,Bank Charges & Fees,partial,850,debit
+sms charges,Bank Charges & Fees,partial,850,debit
+stamp duty,Bank Charges & Fees,partial,850,debit
+akshaya patra,Donations & Charity,partial,850,debit
+charity,Donations & Charity,partial,850,debit
+devasthanam,Donations & Charity,partial,850,debit
+donation,Donations & Charity,partial,850,debit
+give india,Donations & Charity,partial,850,debit
+giveindia,Donations & Charity,partial,850,debit
+goonj,Donations & Charity,partial,850,debit
+gurudwara,Donations & Charity,partial,850,debit
+iskcon,Donations & Charity,partial,850,debit
+ketto,Donations & Charity,partial,850,debit
+mandir,Donations & Charity,partial,850,debit
+milaap,Donations & Charity,partial,850,debit
+ngo,Donations & Charity,exact,850,debit
+pm cares,Donations & Charity,partial,850,debit
+relief fund,Donations & Charity,partial,850,debit
+shirdi,Donations & Charity,partial,850,debit
+siddhivinayak,Donations & Charity,partial,850,debit
+temple,Donations & Charity,partial,850,debit
+tirumala,Donations & Charity,partial,850,debit
+tirupati,Donations & Charity,partial,850,debit
+ttd,Donations & Charity,exact,850,debit
+aakash,Education,partial,850,debit
+admission,Education,partial,850,debit
+allen career,Education,partial,850,debit
+byju,Education,exact,850,debit
+byjus,Education,partial,850,debit
+cbse,Education,exact,850,debit
+coaching,Education,partial,850,debit
+college fee,Education,partial,850,debit
+coursera,Education,partial,850,debit
+exam fee,Education,partial,850,debit
+hostel fee,Education,partial,850,debit
+ignou,Education,partial,850,debit
+nptel,Education,partial,850,debit
+physicswallah,Education,partial,850,debit
+school fee,Education,partial,850,debit
+school fees,Education,partial,850,debit
+simplilearn,Education,partial,850,debit
+tuition,Education,partial,850,debit
+udemy,Education,partial,850,debit
+ugc,Education,exact,850,debit
+unacademy,Education,partial,850,debit
+university,Education,partial,850,debit
+upgrad,Education,partial,850,debit
+vedantu,Education,partial,850,debit
+acko,Insurance,exact,850,debit
+bajaj allianz,Insurance,partial,850,debit
+digit insurance,Insurance,partial,850,debit
+go digit,Insurance,partial,850,debit
+hdfc ergo,Insurance,partial,850,debit
+hdfc life,Insurance,partial,850,debit
+icici lombard,Insurance,partial,850,debit
+icici pru,Insurance,partial,850,debit
+icici prudential,Insurance,partial,850,debit
+insurance,Insurance,partial,850,debit
+insurance premium,Insurance,partial,850,debit
+lic of india,Insurance,partial,850,debit
+life insurance,Insurance,partial,850,debit
+max life,Insurance,partial,850,debit
+national insurance,Insurance,partial,850,debit
+new india assurance,Insurance,partial,850,debit
+oriental insurance,Insurance,partial,850,debit
+policybazaar,Insurance,partial,850,debit
+reliance general,Insurance,partial,850,debit
+sbi life,Insurance,partial,850,debit
+tata aia,Insurance,partial,850,debit
+tata aig,Insurance,partial,850,debit
+united india,Insurance,partial,850,debit
+credit interest,Interest Income,partial,850,credit
+fd interest,Interest Income,partial,850,credit
+int cr,Interest Income,partial,850,credit
+int credit,Interest Income,partial,850,credit
+int on,Interest Income,partial,850,credit
+int pd,Interest Income,partial,850,credit
+interest credit,Interest Income,partial,850,credit
+interest paid,Interest Income,partial,850,credit
+savings interest,Interest Income,partial,850,credit
+sb interest,Interest Income,partial,850,credit
+apartment maintenance,Rent & Housing,partial,850,any
+house rent,Rent & Housing,partial,850,any
+housing society,Rent & Housing,partial,850,any
+landlord,Rent & Housing,partial,850,any
+nestaway,Rent & Housing,partial,850,any
+nobroker,Rent & Housing,partial,850,any
+nobrokerhood,Rent & Housing,partial,850,any
+pg rent,Rent & Housing,partial,850,any
+rent payment,Rent & Housing,partial,850,any
+rentomojo,Rent & Housing,partial,850,any
+society maintenance,Rent & Housing,partial,850,any
+advance tax,Taxes,partial,850,debit
+cbdt,Taxes,exact,850,debit
+challan,Taxes,partial,850,debit
+gst payment,Taxes,partial,850,debit
+gstn,Taxes,exact,850,debit
+income tax,Taxes,partial,850,debit
+incometax,Taxes,partial,850,debit
+itd,Taxes,exact,850,debit
+municipal,Taxes,partial,850,debit
+professional tax,Taxes,partial,850,debit
+property tax,Taxes,partial,850,debit
+road tax,Taxes,partial,850,debit
+tax payment,Taxes,partial,850,debit
+tin nsdl,Taxes,partial,850,debit
+traces,Taxes,partial,850,debit
+agoda,Travel & Hotels,partial,850,debit
+airbnb,Travel & Hotels,partial,850,debit
+booking com,Travel & Hotels,partial,850,debit
+expedia,Travel & Hotels,partial,850,debit
+fabhotels,Travel & Hotels,partial,850,debit
+homestay,Travel & Hotels,partial,850,debit
+hotel,Travel & Hotels,partial,850,debit
+hyatt,Travel & Hotels,partial,850,debit
+ibis,Travel & Hotels,exact,850,debit
+ihcl,Travel & Hotels,exact,850,debit
+lemon tree,Travel & Hotels,partial,850,debit
+lodge,Travel & Hotels,partial,850,debit
+marriott,Travel & Hotels,partial,850,debit
+oberoi,Travel & Hotels,partial,850,debit
+oyo,Travel & Hotels,exact,850,debit
+radisson,Travel & Hotels,partial,850,debit
+resort,Travel & Hotels,partial,850,debit
+taj hotels,Travel & Hotels,partial,850,debit
+treebo,Travel & Hotels,partial,850,debit
+zostel,Travel & Hotels,partial,850,debit
+lic,Insurance,exact,800,debit
+premium,Insurance,partial,800,debit
+rent,Rent & Housing,exact,800,debit
+society,Rent & Housing,partial,800,debit
+tds,Taxes,exact,800,any
+cgst,Bank Charges & Fees,exact,700,debit
+charges,Bank Charges & Fees,partial,700,debit
+gst,Bank Charges & Fees,exact,700,debit
+igst,Bank Charges & Fees,exact,700,debit
+sgst,Bank Charges & Fees,exact,700,debit
+interest,Interest Income,partial,700,credit
+amazon prime,Entertainment,partial,950,any
+prime video,Entertainment,partial,950,any
+youtube premium,Entertainment,partial,950,any
+jio bp,Fuel,partial,950,any
+jiobp,Fuel,partial,950,any
+reliance bp,Fuel,partial,950,any
+early salary,Loan & EMI,partial,950,any
+earlysalary,Loan & EMI,partial,950,any
+salary advance,Loan & EMI,partial,950,any
+salaryadvance,Loan & EMI,partial,950,any
+blinkit,Shopping,partial,950,any
+instamart,Shopping,partial,950,any
+swiggy instamart,Shopping,partial,950,any
+zomato hyperpure,Shopping,partial,950,any
+\b(nfs|visa|mc|rupay) (cash )?(wdl|withdrawal)\b,ATM Withdrawal,regex,920,debit
+\batm (wdl|wd|cash|cash wdl|withdrawal|txn|trf)\b,ATM Withdrawal,regex,920,debit
+\batw\b ?(d|\d),ATM Withdrawal,regex,920,debit
+\bcash (wdl|withdrawal|wd)\b,ATM Withdrawal,regex,920,debit
+\b(bse star|bsestar|bse ltd|nse clearing|nsccl|icclltd|ccil)\b,Investment,regex,920,debit
+\b(nach|ach|ecs|si)\b.*\b(sip|mutual fund|mf|nippon|axis mf|hdfc mf|sbi mf|icici pru mf)\b,Investment,regex,920,debit
+\b(loan|lan) (a c|ac|account|no|repayment|emi|instalment|installment)\b,Loan & EMI,regex,920,debit
+\bach (d|debit)\b.*\b(emi|loan|finance|finserv|capital)\b,Loan & EMI,regex,920,debit
+\bemi\b.*\b(auto debit|nach|ecs|si)\b,Loan & EMI,regex,920,debit
+\bnach\b.*\b(emi|loan|finance|finserv|capital)\b,Loan & EMI,regex,920,debit
+\bsal(ary)? (cr|credit|for|of|jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\b,Salary,regex,920,credit
+aha video,Entertainment,partial,900,any
+alt balaji,Entertainment,partial,900,any
+altbalaji,Entertainment,partial,900,any
+apple music,Entertainment,partial,900,any
+audible,Entertainment,partial,900,any
+bgmi,Entertainment,exact,900,any
+bookmyshow,Entertainment,partial,900,any
+cinepolis,Entertainment,partial,900,any
+discovery plus,Entertainment,partial,900,any
+disney hotstar,Entertainment,partial,900,any
+dream11,Entertainment,partial,900,any
+epic games,Entertainment,partial,900,any
+eros now,Entertainment,partial,900,any
+gaana,Entertainment,partial,900,any
+hotstar,Entertainment,partial,900,any
+inox,Entertainment,exact,900,any
+jio cinema,Entertainment,partial,900,any
+jiocinema,Entertainment,partial,900,any
+jiosaavn,Entertainment,partial,900,any
+krafton,Entertainment,partial,900,any
+lionsgate play,Entertainment,partial,900,any
+mpl,Entertainment,exact,900,any
+mubi,Entertainment,exact,900,any
+my11circle,Entertainment,partial,900,any
+netflix,Entertainment,partial,900,any
+nintendo,Entertainment,partial,900,any
+paytm insider,Entertainment,partial,900,any
+playstation,Entertainment,partial,900,any
+pvr,Entertainment,partial,900,any
+saavn,Entertainment,partial,900,any
+sony liv,Entertainment,partial,900,any
+sonyliv,Entertainment,partial,900,any
+spotify,Entertainment,partial,900,any
+steam games,Entertainment,partial,900,any
+sun nxt,Entertainment,partial,900,any
+sunnxt,Entertainment,partial,900,any
+twitch,Entertainment,partial,900,any
+voot,Entertainment,exact,900,any
+wynk,Entertainment,exact,900,any
+xbox,Entertainment,exact,900,any
+zee5,Entertainment,partial,900,any
+barbeque nation,Food & Dining,partial,900,any
+baskin robbins,Food & Dining,partial,900,any
+behrouz,Food & Dining,partial,900,any
+bikanervala,Food & Dining,partial,900,any
+biryani by kilo,Food & Dining,partial,900,any
+blue tokai,Food & Dining,partial,900,any
+box8,Food & Dining,exact,900,any
+burger king,Food & Dining,partial,900,any
+burgerking,Food & Dining,partial,900,any
+cafe coffee day,Food & Dining,partial,900,any
+ccd,Food & Dining,exact,900,any
+chaayos,Food & Dining,partial,900,any
+chai point,Food & Dining,partial,900,any
+chai sutta bar,Food & Dining,partial,900,any
+dineout,Food & Dining,partial,900,any
+domino s,Food & Dining,partial,900,any
+dominos,Food & Dining,partial,900,any
+eatfit,Food & Dining,partial,900,any
+eatsure,Food & Dining,partial,900,any
+eazydiner,Food & Dining,partial,900,any
+faasos,Food & Dining,partial,900,any
+fresh to home,Food & Dining,partial,900,any
+freshmenu,Food & Dining,partial,900,any
+freshtohome,Food & Dining,partial,900,any
+haldiram,Food & Dining,partial,900,any
+haldirams,Food & Dining,partial,900,any
+ice cream,Food & Dining,partial,900,any
+kfc,Food & Dining,partial,900,any
+licious,Food & Dining,partial,900,any
+magicpin,Food & Dining,partial,900,any
+mainland china,Food & Dining,partial,900,any
+mcdonald s,Food & Dining,partial,900,any
+mcdonalds,Food & Dining,partial,900,any
+paradise biryani,Food & Dining,partial,900,any
+pizza hut,Food & Dining,partial,900,any
+pizzahut,Food & Dining,partial,900,any
+rebel foods,Food & Dining,partial,900,any
+sagar ratna,Food & Dining,partial,900,any
+saravana bhavan,Food & Dining,partial,900,any
+social offline,Food & Dining,partial,900,any
+starbucks,Food & Dining,partial,900,any
+subway,Food & Dining,partial,900,any
+swiggy,Food & Dining,partial,900,any
+theobroma,Food & Dining,partial,900,any
+third wave coffee,Food & Dining,partial,900,any
+uber eats,Food & Dining,partial,900,any
+ubereats,Food & Dining,partial,900,any
+wow momo,Food & Dining,partial,900,any
+zomato,Food & Dining,partial,900,any
+bharat petroleum,Fuel,partial,900,any
+bpcl,Fuel,partial,900,any
+essar oil,Fuel,partial,900,any
+hindustan petroleum,Fuel,partial,900,any
+hpcl,Fuel,partial,900,any
+indian oil,Fuel,partial,900,any
+indianoil,Fuel,partial,900,any
+iocl,Fuel,partial,900,any
+nayara,Fuel,partial,900,any
+shell,Fuel,partial,900,any
+1mg,Healthcare,partial,900,any
+apollo pharmacy,Healthcare,partial,900,any
+medplus,Healthcare,partial,900,any
+netmeds,Healthcare,partial,900,any
+pharmeasy,Healthcare,partial,900,any
+practo,Healthcare,partial,900,any
+tata 1mg,Healthcare,partial,900,any
+adidas,Shopping,partial,900,any
+ajio,Shopping,exact,900,any
+amazon,Shopping,partial,900,any
+apple store,Shopping,partial,900,any
+avenue supermarts,Shopping,partial,900,any
+bata,Shopping,exact,900,any
+bewakoof,Shopping,partial,900,any
+big basket,Shopping,partial,900,any
+big bazaar,Shopping,partial,900,any
+bigbasket,Shopping,partial,900,any
+boat lifestyle,Shopping,partial,900,any
+caratlane,Shopping,partial,900,any
+country delight,Shopping,partial,900,any
+croma,Shopping,partial,900,any
+decathlon,Shopping,partial,900,any
+dmart,Shopping,partial,900,any
+dunzo,Shopping,partial,900,any
+ebay,Shopping,exact,900,any
+firstcry,Shopping,partial,900,any
+flipkart,Shopping,partial,900,any
+godrej interio,Shopping,partial,900,any
+home centre,Shopping,partial,900,any
+hypercity,Shopping,partial,900,any
+ikea,Shopping,exact,900,any
+jiomart,Shopping,partial,900,any
+lenskart,Shopping,partial,900,any
+lifestyle stores,Shopping,partial,900,any
+limeroad,Shopping,partial,900,any
+mamaearth,Shopping,partial,900,any
+max fashion,Shopping,partial,900,any
+meesho,Shopping,partial,900,any
+mi store,Shopping,partial,900,any
+milkbasket,Shopping,partial,900,any
+more retail,Shopping,partial,900,any
+myntra,Shopping,partial,900,any
+nature s basket,Shopping,partial,900,any
+natures basket,Shopping,partial,900,any
+nike,Shopping,exact,900,any
+nykaa,Shopping,partial,900,any
+oneplus,Shopping,partial,900,any
+pantaloons,Shopping,partial,900,any
+pepperfry,Shopping,partial,900,any
+puma,Shopping,exact,900,any
+purplle,Shopping,partial,900,any
+reliance digital,Shopping,partial,900,any
+reliance fresh,Shopping,partial,900,any
+reliance retail,Shopping,partial,900,any
+samsung store,Shopping,partial,900,any
+shopclues,Shopping,partial,900,any
+shoppers stop,Shopping,partial,900,any
+sleepwell,Shopping,partial,900,any
+snapdeal,Shopping,partial,900,any
+spencers,Shopping,partial,900,any
+sugar cosmetics,Shopping,partial,900,any
+supr daily,Shopping,partial,900,any
+tanishq,Shopping,partial,900,any
+tata cliq,Shopping,partial,900,any
+tatacliq,Shopping,partial,900,any
+titan,Shopping,partial,900,any
+uniqlo,Shopping,partial,900,any
+urban ladder,Shopping,partial,900,any
+vijay sales,Shopping,partial,900,any
+wakefit,Shopping,partial,900,any
+westside,Shopping,partial,900,any
+xiaomi,Shopping,partial,900,any
+zepto,Shopping,partial,900,any
+zudio,Shopping,partial,900,any
+abhibus,Transportation,partial,900,any
+air india,Transportation,partial,900,any
+akasa air,Transportation,partial,900,any
+blu smart,Transportation,partial,900,any
+blusmart,Transportation,partial,900,any
+cleartrip,Transportation,partial,900,any
+easemytrip,Transportation,partial,900,any
+flixbus,Transportation,partial,900,any
+go first,Transportation,partial,900,any
+goibibo,Transportation,partial,900,any
+indigo,Transportation,partial,900,any
+indrive,Transportation,partial,900,any
+indrive,Transportation,partial,900,any
+intrcity,Transportation,partial,900,any
+ixigo,Transportation,partial,900,any
+makemytrip,Transportation,partial,900,any
+meru cabs,Transportation,partial,900,any
+namma yatri,Transportation,partial,900,any
+ola,Transportation,exact,900,any
+ola cabs,Transportation,partial,900,any
+olacabs,Transportation,partial,900,any
+rapido,Transportation,partial,900,any
+redbus,Transportation,partial,900,any
+spicejet,Transportation,partial,900,any
+uber,Transportation,partial,900,any
+vistara,Transportation,partial,900,any
+yatra,Transportation,partial,900,any
+zingbus,Transportation,partial,900,any
+atm cash,ATM Withdrawal,partial,850,debit
+atm wdl,ATM Withdrawal,partial,850,debit
+cash wdl,ATM Withdrawal,partial,850,debit
+cash withdrawal,ATM Withdrawal,partial,850,debit
+eaw,ATM Withdrawal,exact,850,debit
+nwd,ATM Withdrawal,exact,850,debit
+withdrawal self,ATM Withdrawal,partial,850,debit
+aiims,Healthcare,partial,850,any
+apollo,Healthcare,partial,850,any
+aravind eye,Healthcare,partial,850,any
+care health,Healthcare,partial,850,any
+cloudnine,Healthcare,partial,850,any
+clove dental,Healthcare,partial,850,any
+cult fit,Healthcare,partial,850,any
+dr lal,Healthcare,partial,850,any
+fortis,Healthcare,partial,850,any
+healthians,Healthcare,partial,850,any
+hinduja,Healthcare,partial,850,any
+kokilaben,Healthcare,partial,850,any
+lal path,Healthcare,partial,850,any
+lalpath,Healthcare,partial,850,any
+lilavati,Healthcare,partial,850,any
+manipal,Healthcare,partial,850,any
+max healthcare,Healthcare,partial,850,any
+max hospital,Healthcare,partial,850,any
+medanta,Healthcare,partial,850,any
+metropolis,Healthcare,partial,850,any
+narayana,Healthcare,partial,850,any
+niva bupa,Healthcare,partial,850,any
+rainbow hospital,Healthcare,partial,850,any
+redcliffe,Healthcare,partial,850,any
+sankara nethralaya,Healthcare,partial,850,any
+srl diagnostics,Healthcare,partial,850,any
+star health,Healthcare,partial,850,any
+thyrocare,Healthcare,partial,850,any
+wellness forever,Healthcare,partial,850,any
+5paisa,Investment,partial,850,any
+angel broking,Investment,partial,850,any
+angel one,Investment,partial,850,any
+angelone,Investment,partial,850,any
+cams,Investment,partial,850,any
+cdsl,Investment,exact,850,any
+coin by zerodha,Investment,partial,850,any
+dhan,Investment,exact,850,any
+et money,Investment,partial,850,any
+etmoney,Investment,partial,850,any
+fyers,Investment,partial,850,any
+gold bond,Investment,partial,850,any
+groww,Investment,partial,850,any
+hdfc securities,Investment,partial,850,any
+iccl,Investment,exact,850,any
+icici direct,Investment,partial,850,any
+icicidirect,Investment,partial,850,any
+ind money,Investment,partial,850,any
+indmoney,Investment,partial,850,any
+karvy,Investment,partial,850,any
+kfintech,Investment,partial,850,any
+kotak securities,Investment,partial,850,any
+kuvera,Investment,partial,850,any
+mirae asset,Investment,partial,850,any
+motilal oswal,Investment,partial,850,any
+national pension,Investment,partial,850,any
+nippon india,Investment,partial,850,any
+nps trust,Investment,partial,850,any
+nsdl,Investment,exact,850,any
+parag parikh,Investment,partial,850,any
+paytm money,Investment,partial,850,any
+ppfas,Investment,partial,850,any
+sgb,Investment,exact,850,any
+sharekhan,Investment,partial,850,any
+smallcase,Investment,partial,850,any
+sovereign gold,Investment,partial,850,any
+upstox,Investment,partial,850,any
+zerodha,Investment,partial,850,any
+aditya birla finance,Loan & EMI,partial,850,debit
+axis finance,Loan & EMI,partial,850,debit
+bajaj fin,Loan & EMI,partial,850,debit
+bajaj finance,Loan & EMI,partial,850,debit
+bajaj finserv,Loan & EMI,partial,850,debit
+bajfinance,Loan & EMI,partial,850,debit
+can fin,Loan & EMI,partial,850,debit
+cholamandalam,Loan & EMI,partial,850,debit
+clix capital,Loan & EMI,partial,850,debit
+dhani,Loan & EMI,partial,850,debit
+fibe,Loan & EMI,exact,850,debit
+fullerton,Loan & EMI,partial,850,debit
+hdb financial,Loan & EMI,partial,850,debit
+hdfc loan,Loan & EMI,partial,850,debit
+hdfc ltd,Loan & EMI,partial,850,debit
+hero fincorp,Loan & EMI,partial,850,debit
+home credit,Loan & EMI,partial,850,debit
+housing finance,Loan & EMI,partial,850,debit
+icici home loan,Loan & EMI,partial,850,debit
+iifl,Loan & EMI,exact,850,debit
+indiabulls,Loan & EMI,partial,850,debit
+kreditbee,Loan & EMI,partial,850,debit
+l and t finance,Loan & EMI,partial,850,debit
+l t finance,Loan & EMI,partial,850,debit
+lazypay,Loan & EMI,partial,850,debit
+lic housing,Loan & EMI,partial,850,debit
+lichfl,Loan & EMI,partial,850,debit
+loan emi,Loan & EMI,partial,850,debit
+loan installment,Loan & EMI,partial,850,debit
+loan instalment,Loan & EMI,partial,850,debit
+loan repayment,Loan & EMI,partial,850,debit
+lt finance,Loan & EMI,partial,850,debit
+mahindra finance,Loan & EMI,partial,850,debit
+manappuram,Loan & EMI,partial,850,debit
+money view,Loan & EMI,partial,850,debit
+moneyview,Loan & EMI,partial,850,debit
+muthoot,Loan & EMI,partial,850,debit
+navi finserv,Loan & EMI,partial,850,debit
+onecard,Loan & EMI,partial,850,debit
+paysense,Loan & EMI,partial,850,debit
+piramal finance,Loan & EMI,partial,850,debit
+pnb housing,Loan & EMI,partial,850,debit
+poonawalla,Loan & EMI,partial,850,debit
+sbi home loan,Loan & EMI,partial,850,debit
+shriram finance,Loan & EMI,partial,850,debit
+shriram transport,Loan & EMI,partial,850,debit
+slice,Loan & EMI,partial,850,debit
+sundaram finance,Loan & EMI,partial,850,debit
+tata capital,Loan & EMI,partial,850,debit
+tvs credit,Loan & EMI,partial,850,debit
+uni cards,Loan & EMI,partial,850,debit
+zestmoney,Loan & EMI,partial,850,debit
+apsrtc,Transportation,partial,850,any
+best bus,Transportation,partial,850,any
+bmrcl,Transportation,partial,850,any
+bmtc,Transportation,exact,850,any
+bounce,Transportation,partial,850,any
+dmrc,Transportation,exact,850,any
+fastag,Transportation,partial,850,any
+gsrtc,Transportation,partial,850,any
+indian railways,Transportation,partial,850,any
+irctc,Transportation,partial,850,any
+ksrtc,Transportation,partial,850,any
+metro,Transportation,partial,850,any
+msrtc,Transportation,partial,850,any
+nhai,Transportation,exact,850,any
+parking,Transportation,partial,850,any
+railway,Transportation,partial,850,any
+railways,Transportation,partial,850,any
+toll,Transportation,exact,850,any
+toll plaza,Transportation,partial,850,any
+tsrtc,Transportation,partial,850,any
+upsrtc,Transportation,partial,850,any
+vogo,Transportation,exact,850,any
+yulu,Transportation,exact,850,any
+act fibernet,Utilities,partial,850,any
+adani electricity,Utilities,partial,850,any
+adani gas,Utilities,partial,850,any
+adani total gas,Utilities,partial,850,any
+airtel,Utilities,partial,850,any
+apspdcl,Utilities,partial,850,any
+bescom,Utilities,partial,850,any
+bharat gas,Utilities,partial,850,any
+bharatgas,Utilities,partial,850,any
+bses,Utilities,exact,850,any
+bses rajdhani,Utilities,partial,850,any
+bses yamuna,Utilities,partial,850,any
+bsnl,Utilities,exact,850,any
+bwssb,Utilities,partial,850,any
+cesc,Utilities,exact,850,any
+d2h,Utilities,exact,850,any
+dgvcl,Utilities,partial,850,any
+dish tv,Utilities,partial,850,any
+excitel,Utilities,partial,850,any
+gujarat gas,Utilities,partial,850,any
+hathway,Utilities,partial,850,any
+hp gas,Utilities,partial,850,any
+hpgas,Utilities,partial,850,any
+igl,Utilities,exact,850,any
+indane,Utilities,partial,850,any
+indraprastha gas,Utilities,partial,850,any
+jal board,Utilities,partial,850,any
+jal nigam,Utilities,partial,850,any
+jio fiber,Utilities,partial,850,any
+jiofiber,Utilities,partial,850,any
+jvvnl,Utilities,partial,850,any
+kseb,Utilities,exact,850,any
+lpg,Utilities,exact,850,any
+mahadiscom,Utilities,partial,850,any
+mahanagar gas,Utilities,partial,850,any
+mgl,Utilities,exact,850,any
+mgvcl,Utilities,partial,850,any
+mseb,Utilities,exact,850,any
+msedcl,Utilities,partial,850,any
+mtnl,Utilities,exact,850,any
+noida power,Utilities,partial,850,any
+pgvcl,Utilities,partial,850,any
+piped gas,Utilities,partial,850,any
+pspcl,Utilities,partial,850,any
+reliance jio,Utilities,partial,850,any
+spectranet,Utilities,partial,850,any
+sun direct,Utilities,partial,850,any
+tangedco,Utilities,partial,850,any
+tantransco,Utilities,partial,850,any
+tata play,Utilities,partial,850,any
+tata power,Utilities,partial,850,any
+tata sky,Utilities,partial,850,any
+tatasky,Utilities,partial,850,any
+tikona,Utilities,partial,850,any
+tneb,Utilities,exact,850,any
+torrent power,Utilities,partial,850,any
+tsspdcl,Utilities,partial,850,any
+ugvcl,Utilities,partial,850,any
+uppcl,Utilities,partial,850,any
+vi postpaid,Utilities,partial,850,any
+vi prepaid,Utilities,partial,850,any
+vodafone,Utilities,partial,850,any
+vodafone idea,Utilities,partial,850,any
+water board,Utilities,partial,850,any
+wbsedcl,Utilities,partial,850,any
+atm,ATM Withdrawal,exact,800,debit
+amusement,Entertainment,partial,800,any
+cinema,Entertainment,partial,800,any
+concert,Entertainment,partial,800,any
+gaming,Entertainment,partial,800,any
+imagica,Entertainment,partial,800,any
+itunes,Entertainment,partial,800,any
+movie,Entertainment,partial,800,any
+multiplex,Entertainment,partial,800,any
+theater,Entertainment,partial,800,any
+theatre,Entertainment,partial,800,any
+water park,Entertainment,partial,800,any
+wonderla,Entertainment,partial,800,any
+bakery,Food & Dining,partial,800,any
+biryani,Food & Dining,partial,800,any
+burger,Food & Dining,partial,800,any
+cafe,Food & Dining,exact,800,any
+canteen,Food & Dining,partial,800,any
+dhaba,Food & Dining,partial,800,any
+dining,Food & Dining,partial,800,any
+eatery,Food & Dining,partial,800,any
+food court,Food & Dining,partial,800,any
+juice,Food & Dining,partial,800,any
+kitchen,Food & Dining,partial,800,any
+mess,Food & Dining,exact,800,any
+momos,Food & Dining,partial,800,any
+pizza,Food & Dining,partial,800,any
+restaurant,Food & Dining,partial,800,any
+sweets,Food & Dining,partial,800,any
+tiffin,Food & Dining,partial,800,any
+cng,Fuel,exact,800,any
+diesel,Fuel,partial,800,any
+filling station,Fuel,partial,800,any
+fuel,Fuel,partial,800,any
+fuel station,Fuel,partial,800,any
+petro,Fuel,partial,800,any
+petrol,Fuel,partial,800,any
+petrol pump,Fuel,partial,800,any
+ayurved,Healthcare,partial,800,any
+chemist,Healthcare,partial,800,any
+clinic,Healthcare,partial,800,any
+dental,Healthcare,partial,800,any
+dentist,Healthcare,partial,800,any
+diagnostic,Healthcare,partial,800,any
+diagnostics,Healthcare,partial,800,any
+doctor,Healthcare,partial,800,any
+health care,Healthcare,partial,800,any
+healthcare,Healthcare,partial,800,any
+hospital,Healthcare,partial,800,any
+medical,Healthcare,partial,800,any
+medical store,Healthcare,partial,800,any
+medicos,Healthcare,partial,800,any
+nursing home,Healthcare,partial,800,any
+pathology,Healthcare,partial,800,any
+pharma,Healthcare,partial,800,any
+pharmacy,Healthcare,partial,800,any
+brokerage,Investment,partial,800,debit
+demat,Investment,partial,800,debit
+equity,Investment,partial,800,debit
+fixed deposit,Investment,partial,800,debit
+gold etf,Investment,partial,800,debit
+mf,Investment,exact,800,debit
+mutual fund,Investment,partial,800,debit
+nps,Investment,exact,800,debit
+ppf,Investment,exact,800,debit
+rd installment,Investment,partial,800,debit
+rd instalment,Investment,partial,800,debit
+recurring deposit,Investment,partial,800,debit
+securities,Investment,partial,800,debit
+sip,Investment,exact,800,debit
+stock,Investment,partial,800,debit
+stocks,Investment,partial,800,debit
+cred,Loan & EMI,exact,800,debit
+cred club,Loan & EMI,partial,800,debit
+emi,Loan & EMI,exact,800,debit
+installment,Loan & EMI,partial,800,debit
+instalment,Loan & EMI,partial,800,debit
+loan,Loan & EMI,partial,800,debit
+payroll,Salary,partial,800,credit
+sal credit,Salary,partial,800,credit
+salary,Salary,partial,800,credit
+salary credit,Salary,partial,800,credit
+stipend,Salary,partial,800,credit
+wages,Salary,partial,800,credit
+fashion,Shopping,partial,800,any
+garments,Shopping,partial,800,any
+mall,Shopping,exact,800,any
+mart,Shopping,exact,800,any
+mobile store,Shopping,partial,800,any
+retail,Shopping,partial,800,any
+stores,Shopping,partial,800,any
+supermarket,Shopping,partial,800,any
+auto rickshaw,Transportation,partial,800,any
+bus ticket,Transportation,partial,800,any
+cab,Transportation,exact,800,any
+flight,Transportation,partial,800,any
+taxi,Transportation,exact,800,any
+train ticket,Transportation,partial,800,any
+broadband,Utilities,partial,800,any
+dth,Utilities,exact,800,any
+electric bill,Utilities,partial,800,any
+electricity,Utilities,partial,800,any
+gas bill,Utilities,partial,800,any
+internet bill,Utilities,partial,800,any
+jio,Utilities,exact,800,any
+postpaid,Utilities,partial,800,any
+power bill,Utilities,partial,800,any
+prepaid,Utilities,partial,800,any
+recharge,Utilities,partial,800,any
+water bill,Utilities,partial,800,any
+wifi,Utilities,exact,800,any
+american express,Loan & EMI,partial,750,debit
+amex,Loan & EMI,exact,750,debit
+axis card,Loan & EMI,partial,750,debit
+billdesk cc,Loan & EMI,partial,750,debit
+card payment,Loan & EMI,partial,750,debit
+cc bill,Loan & EMI,partial,750,debit
+cc payment,Loan & EMI,partial,750,debit
+credit card,Loan & EMI,partial,750,debit
+hdfc card,Loan & EMI,partial,750,debit
+icici card,Loan & EMI,partial,750,debit
+sbi card,Loan & EMI,partial,750,debit
+sbi cards,Loan & EMI,partial,750,debit
+bonus,Salary,partial,750,credit
+ctc,Salary,exact,750,credit
+pay slip,Salary,partial,750,credit
+payslip,Salary,partial,750,credit
+bbps,Utilities,exact,700,any
+bharat bill,Utilities,partial,700,any
+ib fund transfer,Transfers,partial,250,any
+ib funds transfer,Transfers,partial,250,any
+own account,Transfers,partial,250,any
+self transfer,Transfers,partial,250,any
+fund transfer,Transfers,partial,200,any
+funds transfer,Transfers,partial,200,any
+add money,Transfers,partial,150,any
+by transfer,Transfers,partial,150,any
+p2p,Transfers,exact,150,any
+to self,Transfers,partial,150,any
+to transfer,Transfers,partial,150,any
+tpt,Transfers,exact,150,any
+transfer,Transfers,partial,150,any
+trf,Transfers,exact,150,any
+wallet load,Transfers,partial,150,any
+ecs,Transfers,exact,100,any
+ift,Transfers,exact,100,any
+imps,Transfers,exact,100,any
+mmt,Transfers,exact,100,any
+neft,Transfers,exact,100,any
+rtgs,Transfers,exact,100,any
+upi,Transfers,exact,100,any

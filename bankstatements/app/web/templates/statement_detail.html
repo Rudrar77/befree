@@ -1,0 +1,332 @@
+{% extends "base.html" %}
+
+{% block title %}Statement Details - {{ statement.original_filename }}{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div>
+    <div class="d-flex align-items-center gap-2">
+      <a href="/statements" class="btn btn-sm btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i>
+      </a>
+      <h4 class="fw-bold mb-0">{{ statement.original_filename }}</h4>
+      <span id="stmtStatusBadge" class="badge bg-secondary">Loading...</span>
+    </div>
+    <span class="text-muted small ms-5">ID: {{ statement.id }}</span>
+  </div>
+  <div class="d-flex gap-2">
+    <button class="btn btn-primary" id="stmtProcessBtn">
+      <i class="bi bi-arrow-repeat me-1"></i> (Re)Process Statement
+    </button>
+  </div>
+</div>
+
+<!-- Active Processing Progress Banner -->
+<div class="card shadow-sm border-0 mb-4 d-none" id="processingProgressBox">
+  <div class="card-body">
+    <div class="d-flex justify-content-between mb-2">
+      <span class="fw-bold" id="currentStepText">Processing...</span>
+      <span class="spinner-border spinner-border-sm text-primary" role="status"></span>
+    </div>
+    <div class="progress" style="height: 12px;">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" id="processingProgressBar" role="progressbar" style="width: 0%;">0%</div>
+    </div>
+  </div>
+</div>
+<div class="alert alert-danger d-none" id="processingErrorBox" role="alert"></div>
+
+<!-- Tabs Navigation -->
+<ul class="nav nav-tabs mb-4" id="statementDetailTabs" role="tablist">
+  <li class="nav-item">
+    <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overviewPane" type="button" role="tab">Overview</button>
+  </li>
+  <li class="nav-item">
+    <button class="nav-link" id="transactions-tab" data-bs-toggle="tab" data-bs-target="#transactionsPane" type="button" role="tab">Transactions</button>
+  </li>
+  <li class="nav-item">
+    <button class="nav-link" id="needs-review-tab" data-bs-toggle="tab" data-bs-target="#needsReviewPane" type="button" role="tab">Needs Review</button>
+  </li>
+  <li class="nav-item">
+    <button class="nav-link" id="export-tab" data-bs-toggle="tab" data-bs-target="#exportPane" type="button" role="tab">Export</button>
+  </li>
+</ul>
+
+<!-- Tabs Content -->
+<div class="tab-content" id="statementTabContent">
+
+  <!-- TAB 1: OVERVIEW -->
+  <div class="tab-pane fade show active" id="overviewPane" role="tabpanel">
+    <div class="row g-4 mb-4">
+      <div class="col-md-6">
+        <div class="card shadow-sm border-0 h-100">
+          <div class="card-header bg-transparent fw-bold py-3">Account Information</div>
+          <div class="card-body">
+            <dl class="row mb-0">
+              <dt class="col-sm-5 text-muted">Bank Name</dt>
+              <dd class="col-sm-7 fw-medium" id="stmtBankName">—</dd>
+
+              <dt class="col-sm-5 text-muted">Account Holder</dt>
+              <dd class="col-sm-7" id="stmtAccountHolder">—</dd>
+
+              <dt class="col-sm-5 text-muted">Account Number</dt>
+              <dd class="col-sm-7 font-tabular" id="stmtAccountNumber">—</dd>
+
+              <dt class="col-sm-5 text-muted">IFSC Code</dt>
+              <dd class="col-sm-7" id="stmtIfsc">—</dd>
+
+              <dt class="col-sm-5 text-muted">Branch</dt>
+              <dd class="col-sm-7" id="stmtBranch">—</dd>
+
+              <dt class="col-sm-5 text-muted">Statement Period</dt>
+              <dd class="col-sm-7"><span id="stmtPeriodStart">—</span> to <span id="stmtPeriodEnd">—</span></dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card shadow-sm border-0 h-100">
+          <div class="card-header bg-transparent fw-bold py-3">Balances & Extraction Type</div>
+          <div class="card-body">
+            <dl class="row mb-0">
+              <dt class="col-sm-5 text-muted">Opening Balance</dt>
+              <dd class="col-sm-7 font-tabular fw-bold text-primary" id="stmtOpeningBal">—</dd>
+
+              <dt class="col-sm-5 text-muted">Closing Balance</dt>
+              <dd class="col-sm-7 font-tabular fw-bold text-success" id="stmtClosingBal">—</dd>
+
+              <dt class="col-sm-5 text-muted">Detected PDF Type</dt>
+              <dd class="col-sm-7 text-uppercase" id="stmtPdfType">—</dd>
+
+              <dt class="col-sm-5 text-muted">Extracted Transactions</dt>
+              <dd class="col-sm-7" id="stmtTxnCount">—</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Per-page extraction method table -->
+    <div class="card shadow-sm border-0">
+      <div class="card-header bg-transparent fw-bold py-3">Page-by-Page Extraction Log</div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-sm align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Page</th>
+                <th>Method</th>
+                <th>Provider</th>
+                <th>OCR Used</th>
+                <th>Error</th>
+                <th>OCR Warnings</th>
+              </tr>
+            </thead>
+            <tbody id="pageMethodsTableBody">
+              <tr>
+                <td colspan="6" class="text-center py-3 text-muted">Loading page breakdown...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: TRANSACTIONS -->
+  <div class="tab-pane fade" id="transactionsPane" role="tabpanel">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h6 class="fw-bold mb-0">Transactions in this Statement</h6>
+      <button class="btn btn-sm btn-outline-primary" id="reclassifyBtn">
+        <i class="bi bi-tag me-1"></i> Re-classify Transactions
+      </button>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="card shadow-sm border-0 mb-3">
+      <div class="card-body p-3">
+        <div class="row g-2">
+          <div class="col-md-4">
+            <input type="text" class="form-control form-control-sm" id="searchQuery" placeholder="Search description or reference...">
+          </div>
+          <div class="col-md-2">
+            <select class="form-select form-select-sm" id="filterCategory">
+              <option value="">All Categories</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <select class="form-select form-select-sm" id="filterMethod">
+              <option value="">All Methods</option>
+              <option value="rule">Rule</option>
+              <option value="ml">ML</option>
+              <option value="manual">Manual</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <select class="form-select form-select-sm" id="filterReview">
+              <option value="">Review Status</option>
+              <option value="true">Needs Review</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <select class="form-select form-select-sm" id="sortSelect">
+              <option value="date_desc">Date (Newest)</option>
+              <option value="date_asc">Date (Oldest)</option>
+              <option value="amount_desc">Amount (Highest)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Transactions Table -->
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th class="text-end">Debit (₹)</th>
+                <th class="text-end">Credit (₹)</th>
+                <th class="text-end">Balance (₹)</th>
+                <th>Category</th>
+                <th>Method</th>
+              </tr>
+            </thead>
+            <tbody id="transactionsTableBody">
+              <tr>
+                <td colspan="7" class="text-center py-4 text-muted">Loading transactions...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card-footer bg-transparent py-3" id="txnPagination"></div>
+    </div>
+  </div>
+
+  <!-- TAB 3: NEEDS REVIEW -->
+  <div class="tab-pane fade" id="needsReviewPane" role="tabpanel">
+    <div class="card shadow-sm border-0 mb-4">
+      <div class="card-header bg-transparent fw-bold py-3">Unresolved Rows (Could not parse into transaction)</div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-sm align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Page</th>
+                <th>Raw Text</th>
+                <th>Reason</th>
+                <th>Extraction Method</th>
+              </tr>
+            </thead>
+            <tbody id="unresolvedRowsTableBody">
+              <tr>
+                <td colspan="4" class="text-center py-3 text-muted">Loading unresolved rows...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 4: EXPORT -->
+  <div class="tab-pane fade" id="exportPane" role="tabpanel">
+    <div class="card shadow-sm border-0 col-md-6 mx-auto">
+      <div class="card-header bg-transparent fw-bold py-3">Export Statement Data</div>
+      <div class="card-body">
+        <p class="text-muted small">
+          Download structured export with formula injection protection and currency formatting.
+        </p>
+
+        <div class="mb-3">
+          <label class="form-label small fw-bold">Select Export Format</label>
+          <select class="form-select" id="exportFormatSelect">
+            <option value="xlsx">Excel Workbook (.xlsx) — Multi-sheet with formatting</option>
+            <option value="csv">Standard CSV (.csv) — Comma-separated values</option>
+          </select>
+        </div>
+
+        <button class="btn btn-success w-100 py-2" id="downloadExportBtn">
+          <i class="bi bi-download me-1"></i> Download Export
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Offcanvas Drawer for Transaction Details -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="transactionDrawer" aria-labelledby="drawerLabel">
+  <div class="offcanvas-header border-bottom">
+    <h5 class="offcanvas-title fw-bold" id="drawerLabel">Transaction Details</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <dl class="row mb-3">
+      <dt class="col-4 text-muted small">Date</dt>
+      <dd class="col-8" id="drawerDate">—</dd>
+
+      <dt class="col-4 text-muted small">Normalized</dt>
+      <dd class="col-8 fw-bold" id="drawerDesc">—</dd>
+
+      <dt class="col-4 text-muted small">Raw Text</dt>
+      <dd class="col-8 small font-monospace" id="drawerOrigDesc">—</dd>
+
+      <dt class="col-4 text-muted small">Debit</dt>
+      <dd class="col-8 font-tabular text-danger" id="drawerDebit">—</dd>
+
+      <dt class="col-4 text-muted small">Credit</dt>
+      <dd class="col-8 font-tabular text-success" id="drawerCredit">—</dd>
+
+      <dt class="col-4 text-muted small">Balance</dt>
+      <dd class="col-8 font-tabular" id="drawerBalance">—</dd>
+
+      <dt class="col-4 text-muted small">Reference</dt>
+      <dd class="col-8 font-monospace" id="drawerRef">—</dd>
+
+      <dt class="col-4 text-muted small">Transaction ID</dt>
+      <dd class="col-8 font-monospace" id="drawerTransactionId">—</dd>
+
+      <dt class="col-4 text-muted small">Mode</dt>
+      <dd class="col-8" id="drawerMode">—</dd>
+
+      <dt class="col-4 text-muted small">Method</dt>
+      <dd class="col-8" id="drawerMethod">—</dd>
+
+      <dt class="col-4 text-muted small">Source</dt>
+      <dd class="col-8" id="drawerSourcePage">—</dd>
+
+      <dt class="col-4 text-muted small">Extraction confidence</dt>
+      <dd class="col-8" id="drawerExtractionConfidence">—</dd>
+    </dl>
+
+    <h6 class="fw-bold small text-muted text-uppercase mb-2">Warnings</h6>
+    <ul class="small mb-3" id="drawerWarningsList"></ul>
+
+    <h6 class="fw-bold small text-muted text-uppercase mb-2">Anomaly Flags</h6>
+    <ul class="small mb-3" id="drawerAnomalyList"></ul>
+
+    <h6 class="fw-bold small text-muted text-uppercase mb-2">Notes</h6>
+    <div class="mb-3">
+      <textarea class="form-control form-control-sm" id="drawerNotesInput" rows="3" placeholder="Add custom notes for this transaction..."></textarea>
+      <button class="btn btn-sm btn-outline-primary mt-2" id="drawerSaveNotesBtn">Save Notes</button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="module">
+  import { initStatementDetail } from "{{ url_for('static', filename='js/statement_detail.js') }}";
+  import { initTransactionsView } from "{{ url_for('static', filename='js/transactions.js') }}";
+
+  const stmtId = "{{ statement.id }}";
+  initStatementDetail(stmtId);
+  initTransactionsView(stmtId);
+</script>
+{% endblock %}
