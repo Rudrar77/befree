@@ -209,8 +209,6 @@ befree/
     │   ├── schemas/               # Package placeholder; no schema implementation
     │   ├── services/              # category, pretrained_classifier, processing,
     │   │                           # statement, transaction, and upload services
-    │   ├── validation/            # anomaly_detector, balance_reconciliation,
-    │   │                           # data_validator, duplicate_detector
     │   └── web/
     │       ├── routes.py
     │       ├── filters.py
@@ -325,9 +323,6 @@ The base [requirements.txt](bankstatements/requirements.txt) includes the Tesser
 |---|---|---|
 | PaddleOCR PP-StructureV3 (default) | `requirements-ocr-paddle.txt` | `OCR_PROVIDER=paddleocr`; `OCR_USE_GPU=false` by default |
 | Tesseract | Core requirements plus the Tesseract executable on `PATH` | `OCR_PROVIDER=tesseract` |
-| Azure Document Intelligence | `requirements-ocr-azure.txt` | `OCR_PROVIDER=azure`, `AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT`, `AZURE_DOCUMENT_INTELLIGENCE_KEY` |
-| Google Document AI | `requirements-ocr-google.txt` | `OCR_PROVIDER=google`, `GOOGLE_DOCUMENTAI_PROCESSOR_NAME`, and Google client credentials |
-| AWS Textract | `requirements-ocr-textract.txt` | `OCR_PROVIDER=textract`, `AWS_REGION` or `AWS_DEFAULT_REGION`, and AWS credentials |
 
 `OCR_FALLBACK_PROVIDER` defaults to `tesseract`; the fallback is attempted when the primary provider raises an OCR-provider error. Tesseract must therefore be installed if it is to be used as a fallback. `OCR_SECONDARY_PROVIDER` is an optional independent verification provider, run only when primary OCR output is weak. When configured, cloud OCR providers receive page images for processing; use provider credentials and data-handling settings appropriate for the statements being processed.
 
@@ -365,14 +360,6 @@ The parser registry currently exposes one shared generic parser. It uses table h
 
 The bundled model is loaded lazily and its SHA-256 checksum and expected pipeline/category set are verified before inference. The separate `train-model` CLI utility can train a TF-IDF/tabular-feature scikit-learn model from labeled CSV data; it writes a separate artifact and is not the runtime loader for the bundled classifier.
 
-### Validation and analytics
-
-- Data validation records findings such as malformed IFSC, invalid statement period, missing/invalid transaction dates, missing descriptions or amounts, both debit and credit being populated, negative amounts, missing balances, and unresolved extracted rows.
-- Duplicate detection marks exact matches and likely matches based on date, amount/direction, and description similarity; it does not delete transactions.
-- Anomaly detection flags unusually large amounts (when there are enough samples), negative running balances, and high daily transaction counts. These are review flags, not fraud determinations.
-- Reconciliation compares opening balance plus credits less debits against the closing balance, checks available running balances, and reports mismatches or incomplete inputs.
-- Financial analytics aggregate income, expenses, cash flow, category spending, monthly totals, daily counts, and debit/credit distribution. Categories marked as transfers are excluded from income/expense totals and reported separately.
-
 ## Web application
 
 The browser UI is served by Flask and includes:
@@ -381,7 +368,6 @@ The browser UI is served by Flask and includes:
 - **Statements (`/statements`)**: drag-and-drop or file-picker uploads, optional upload-and-process, status filtering, pagination, processing, and deletion.
 - **Statement detail (`/statements/<id>`)**: extracted account and balance overview, per-page extraction log, progress/status polling, transaction filtering and reclassification, unresolved-row review, and CSV/XLSX download.
 - **Transactions (`/transactions`)**: paginated search/filter/sort and a detail drawer for extraction metadata, validation warnings, anomaly flags, notes, and category corrections.
-- **Categories & Rules (`/categories`)**: create/edit custom categories, mark transfer categories, and create/delete user-defined keyword rules. The API also supports updating and activating/deactivating rules. System categories cannot be renamed and system rules cannot be deleted.
 - **API reference (`/docs`)**: interactive Swagger UI for the OpenAPI specification.
 
 All pages share a light/dark theme toggle that persists the selected theme in browser local storage. The UI uses the same REST API as external clients. Mutating requests are protected by Flask-WTF CSRF; the included JavaScript reads the page token and sends it in the `X-CSRFToken` header.
@@ -416,8 +402,6 @@ All API routes are under `/api`. UUID path parameters are shown as `{id}` below.
 | `GET /api/analytics` | Aggregate analytics across successfully processed statements |
 | `GET /api/analytics/{id}` | Analytics for one statement |
 | `GET /api/dashboard/recent-transactions` | Recent transactions from successfully processed statements |
-| `GET /api/validation/{id}` | Validation and reconciliation report |
-| `POST /api/validation/{id}/recheck` | Re-run validation, duplicate detection, and anomaly checks |
 | `GET /api/export/{id}?format=csv` or `?format=xlsx` | Download a filtered transaction export (**assessment output requirement**) |
 | `GET /api/openapi.json` | OpenAPI 3.0.3 document used by Swagger UI |
 
