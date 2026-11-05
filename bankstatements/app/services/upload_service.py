@@ -17,6 +17,7 @@ from app.errors import (
     InvalidFileType,
     InvalidPdfSignature,
     PdfCorrupted,
+    PdfInvalidPassword,
     PdfPasswordProtected,
 )
 from app.extensions import db
@@ -27,6 +28,7 @@ def validate_and_save_upload(
     upload_dir: str,
     max_mb: int = 16,
     max_pages: int = 500,
+    password: str | None = None,
 ) -> Tuple[Statement, None]:
     """Validate and persist PDF or image uploads securely."""
     raw_filename = file_storage.filename or "unknown.pdf"
@@ -88,14 +90,22 @@ def validate_and_save_upload(
     file_hash = hasher.hexdigest()
 
     doc = None
+    decrypted_path = f"{stored_path}.decrypted"
     try:
         if is_pdf:
             doc = fitz.open(stored_path)
-            if doc.is_encrypted:
-                raise PdfPasswordProtected(
-                    message=f"File '{raw_filename}' is password protected.",
-                    details=[{"field": "file", "issue": "Password-protected PDFs are not supported."}],
-                )
+            is_encrypted = doc.is_encrypted
+            if is_encrypted:
+                if password is None:
+                    raise PdfPasswordProtected(
+                        message=f"File '{raw_filename}' requires a password.",
+                        details=[{"field": "file", "issue": "Enter the PDF password to continue."}],
+                    )
+                if not doc.authenticate(password):
+                    raise PdfInvalidPassword(
+                        message=f"The password entered for '{raw_filename}' is incorrect.",
+                        details=[{"field": "password", "issue": "The PDF password is incorrect."}],
+                    )
             page_count = len(doc)
             if page_count == 0:
                 raise PdfCorrupted(
@@ -106,6 +116,13 @@ def validate_and_save_upload(
                 raise InvalidFileType(
                     message=f"PDF has {page_count} pages; the configured limit is {max_pages}.",
                     details=[{"field": "file", "issue": "Document page limit exceeded."}],
+                )
+            if is_encrypted:
+                doc.save(
+                    decrypted_path,
+                    encryption=fitz.PDF_ENCRYPT_NONE,
+                    garbage=3,
+                    deflate=True,
                 )
         else:
             with Image.open(stored_path) as image:
@@ -126,6 +143,8 @@ def validate_and_save_upload(
             page_count = 1
         doc.close()
         doc = None
+        if is_pdf and os.path.exists(decrypted_path):
+            os.replace(decrypted_path, stored_path)
     except AppError:
         if doc is not None:
             try:
@@ -136,6 +155,11 @@ def validate_and_save_upload(
         if os.path.exists(stored_path):
             try:
                 os.remove(stored_path)
+            except OSError:
+                pass
+        if os.path.exists(decrypted_path):
+            try:
+                os.remove(decrypted_path)
             except OSError:
                 pass
         raise
@@ -149,6 +173,11 @@ def validate_and_save_upload(
         if os.path.exists(stored_path):
             try:
                 os.remove(stored_path)
+            except OSError:
+                pass
+        if os.path.exists(decrypted_path):
+            try:
+                os.remove(decrypted_path)
             except OSError:
                 pass
         raise PdfCorrupted(

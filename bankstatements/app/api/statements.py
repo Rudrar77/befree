@@ -54,6 +54,7 @@ def upload_statements() -> tuple[Any, int]:
                 upload_dir=upload_dir,
                 max_mb=max_mb,
                 max_pages=current_app.config.get("MAX_DOCUMENT_PAGES", 500),
+                password=request.form.get("password"),
             )
             results.append({
                 "filename": fname,

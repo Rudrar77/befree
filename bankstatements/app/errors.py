@@ -68,8 +68,13 @@ class PdfCorrupted(AppError):
 class PdfPasswordProtected(AppError):
     status_code = 422
     error_code = "PDF_PASSWORD_PROTECTED"
-    message = "Password-protected PDFs are not supported."
+    message = "This PDF requires a password."
 
+
+class PdfInvalidPassword(AppError):
+    status_code = 422
+    error_code = "PDF_INVALID_PASSWORD"
+    message = "The password entered for this PDF is incorrect."
 
 class NotFoundError(AppError):
     status_code = 404

@@ -17,11 +17,60 @@ export function initUploadComponent({
   const fileList = document.getElementById(fileListId);
   const uploadBtn = document.getElementById(uploadBtnId);
   const uploadAndProcessBtn = document.getElementById(uploadAndProcessBtnId);
+  const passwordModalElement = document.getElementById('pdfPasswordModal');
+  const passwordForm = document.getElementById('pdfPasswordForm');
+  const passwordInput = document.getElementById('pdfPasswordInput');
+  const passwordMessage = document.getElementById('pdfPasswordMessage');
 
   if (!dropzone || !fileInput) return;
 
   let selectedFiles = [];
   const supportedExtensions = ['.pdf', '.jpg', '.jpeg', '.png'];
+  let resolvePassword = null;
+  const passwordModal = passwordModalElement && window.bootstrap
+    ? window.bootstrap.Modal.getOrCreateInstance(passwordModalElement)
+    : null;
+
+  if (passwordForm && passwordModal && passwordInput && passwordMessage) {
+    passwordForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (!passwordInput.value) {
+        passwordInput.focus();
+        return;
+      }
+      const resolve = resolvePassword;
+      resolvePassword = null;
+      resolve(passwordInput.value);
+      passwordModal.hide();
+    });
+
+    passwordModalElement.addEventListener('hidden.bs.modal', () => {
+      if (resolvePassword) {
+        const resolve = resolvePassword;
+        resolvePassword = null;
+        resolve(null);
+      }
+      passwordInput.value = '';
+    });
+  }
+
+  function requestPdfPassword(filename, retry = false) {
+    if (!passwordModal || !passwordInput || !passwordMessage) {
+      showToast('The PDF password prompt is unavailable. Reload the page and try again.', 'danger');
+      return Promise.resolve(null);
+    }
+
+    passwordMessage.textContent = retry
+      ? `The password for "${filename}" was incorrect. Please try again.`
+      : `"${filename}" is password-protected. Enter its password to continue.`;
+    passwordInput.value = '';
+    passwordModal.show();
+
+    return new Promise((resolve) => {
+      resolvePassword = resolve;
+      passwordModalElement.addEventListener('shown.bs.modal', () => passwordInput.focus(), { once: true });
+    });
+  }
 
   // Drag and drop event listeners
   ['dragenter', 'dragover'].forEach(name => {
@@ -139,7 +188,29 @@ export function initUploadComponent({
       let successCount = 0;
       const failedIndexes = new Set();
 
-      for (const [index, item] of results.entries()) {
+      for (const [index, originalItem] of results.entries()) {
+        let item = originalItem;
+        if (item.error && item.error.code === 'PDF_PASSWORD_PROTECTED') {
+          let retry = false;
+          while (item.error && ['PDF_PASSWORD_PROTECTED', 'PDF_INVALID_PASSWORD'].includes(item.error.code)) {
+            const password = await requestPdfPassword(item.filename, retry);
+            if (password === null) {
+              showToast(`${item.filename}: upload cancelled; enter the PDF password to continue.`, 'warning');
+              break;
+            }
+
+            const retryForm = new FormData();
+            retryForm.append('files', selectedFiles[index]);
+            retryForm.append('password', password);
+            const retryResult = await apiRequest('/api/statements/upload', {
+              method: 'POST',
+              body: retryForm,
+            });
+            item = (retryResult.results || [])[0] || item;
+            retry = true;
+          }
+        }
+
         if (item.statement) {
           successCount++;
           if (shouldProcess) {
@@ -156,7 +227,9 @@ export function initUploadComponent({
           }
         } else if (item.error) {
           failedIndexes.add(index);
-          showToast(`${item.filename}: ${item.error.code} - ${item.error.message}`, 'danger');
+          if (item.error.code !== 'PDF_PASSWORD_PROTECTED') {
+            showToast(`${item.filename}: ${item.error.code} - ${item.error.message}`, 'danger');
+          }
         }
       }
 
