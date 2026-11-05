@@ -122,7 +122,7 @@ The assessment asks that edge cases and usability features be considered and imp
 
 ## What it does
 
-- Accepts PDF, JPG, JPEG, and PNG statement uploads. Images are converted to PDF for processing. Uploads are checked for size, signature, readability, and page limits. Password-protected PDFs prompt for a password; only a valid password unlocks and uploads the document.
+- Accepts PDF, JPG, JPEG, and PNG statement uploads. Images are converted to PDF for processing. Uploads are checked for size, signature, readability, and page limits. Password-protected PDFs prompt for a password; only a valid password unlocks and uploads the document. In the browser, each password applies to one PDF only; enter a separate password for each protected PDF.
 - Detects text, scanned, and mixed pages and records the extraction method and OCR warnings for each page.
 - Extracts statement metadata and transaction rows with a shared parser. It recognizes bank names for SBI, HDFC, ICICI, Axis, Bank of Baroda, Kotak Mahindra, UCO, and Union Bank, but parsing itself uses a generic parser rather than separate bank-specific implementations.
 - Normalizes dates, amounts, debit/credit direction, descriptions, balances, and common payment references. Rows that cannot be parsed remain available as unresolved rows; ambiguous transactions are marked for review.
@@ -413,7 +413,7 @@ Example read-only request:
 curl.exe http://127.0.0.1:5000/api/health
 ```
 
-An upload request uses multipart form data, for example `files=@C:\path\to\statement.pdf`. A protected PDF first returns a `PDF_PASSWORD_PROTECTED` per-file error; retry the same file with its password in the multipart `password` field. An incorrect password returns `PDF_INVALID_PASSWORD`. The application does not store the password and saves an unlocked copy only after authentication succeeds. For direct API POST/PATCH requests, obtain a CSRF token from the web page and send it as `X-CSRFToken` with the same session. API errors use a JSON envelope of the form `{"error":{"code":"...","message":"..."}}`.
+An upload request uses multipart form data, for example `files=@C:\path\to\statement.pdf`. A protected PDF first returns a `PDF_PASSWORD_PROTECTED` per-file error; retry the same file with its password in the multipart `password` field. For multiple protected PDFs, provide each file's password separately; the browser prompts one PDF at a time and does not reuse passwords between files. An incorrect password returns `PDF_INVALID_PASSWORD`. The application does not store the password and saves an unlocked copy only after authentication succeeds. For direct API POST/PATCH requests, obtain a CSRF token from the web page and send it as `X-CSRFToken` with the same session. API errors use a JSON envelope of the form `{"error":{"code":"...","message":"..."}}`.
 
 ## CLI commands
 
