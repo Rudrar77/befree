@@ -1,6 +1,6 @@
 # Bank Statement Processing & Classification System
 
-A Flask prototype built for the **Befree – AI & Automation Internship Programme Assessment** ("Bank Statement Processing & Classification System"). It imports bank statements (text-based or image-based PDFs), extracts account details and transaction data, classifies transactions **without any LLM**, checks statement consistency, and exports the results to **CSV or Excel**, through a browser UI or a REST API.
+A Flask application that imports bank statements (text-based or image-based PDFs), extracts account details and transaction data, classifies transactions **without any LLM**, checks statement consistency, and exports the results to **CSV or Excel**, through a browser UI or a REST API.
 
 The processing path combines native PDF text extraction with configurable OCR, a shared heuristic parser, deterministic keyword rules, and a bundled scikit-learn classifier. It is an extraction and review tool: uncertain results are flagged rather than presented as guaranteed facts. **The application does not use a generative language model.**
 
@@ -8,8 +8,8 @@ The processing path combines native PDF text extraction with configurable OCR, a
 
 ## Contents
 
-1. [Assessment alignment](#assessment-alignment)
-2. [What it does](#what-it-does)
+1. [What it does](#what-it-does)
+2. [Edge cases and safeguards](#edge-cases-and-safeguards)
 3. [Architecture](#architecture)
 4. [Technology](#technology)
 5. [Repository layout](#repository-layout)
@@ -24,73 +24,19 @@ The processing path combines native PDF text extraction with configurable OCR, a
 
 ---
 
-## Assessment alignment
+## What it does
 
-This section maps each requirement in the Befree assessment document to its implementation in this repository.
+- Accepts PDF, JPG, JPEG, and PNG statement uploads. Images are converted to PDF for processing. Uploads are checked for size, signature, readability, and page limits. Password-protected PDFs prompt for a password; only a valid password unlocks and uploads the document. In the browser, each password applies to one PDF only; enter a separate password for each protected PDF.
+- Detects text, scanned, and mixed pages and records the extraction method and OCR warnings for each page.
+- Extracts statement metadata and transaction rows with a shared parser. It recognizes bank names for SBI, HDFC, ICICI, Axis, Bank of Baroda, Kotak Mahindra, UCO, and Union Bank, but parsing itself uses a generic parser rather than separate bank-specific implementations.
+- Extracts account details (masked account number, IFSC, bank name, branch, statement period, opening/closing balances) and, for each transaction, the date, description, debit amount, credit amount, and running balance.
+- Normalizes dates, amounts, debit/credit direction, descriptions, balances, and common payment references. Rows that cannot be parsed remain available as unresolved rows; ambiguous transactions are marked for review.
+- Classifies transactions with active keyword rules first, then a bundled machine-learning model for transactions not resolved by rules. Manual category changes are preserved during ordinary reclassification.
+- Checks transaction data, finds exact and possible duplicates, flags selected anomalies, and reconciles running and statement balances.
+- Presents statements, transactions, categories, rules, review indicators, and financial summaries in a responsive web interface.
+- Exports statement transactions (with their assigned categories) as CSV or a formatted five-sheet Excel workbook. Exports honour the same filters as the transaction list (date range, category, method, review flag, amount range, search). CSV text fields are sanitized against spreadsheet formula injection.
 
-### Objective and problem statement
-
-| Assessment requirement | How it is addressed |
-|---|---|
-| Fully functional prototype for processing bank statements in PDF format | Flask app with upload, background processing, review UI, REST API and export (see [Web application](#web-application)) |
-| Handle both image-based and text-based PDFs | Per-page detection of text, scanned and mixed pages; native text via PyMuPDF/pdfplumber, OCR for pages without enough text (see [Extraction and normalization](#extraction-and-normalization)) |
-| Extract account details and transaction data | Shared parser extracts statement metadata and transaction rows (see 3.2 below) |
-| Classify by transaction description, **no LLM**, using heuristics or traditional ML | Keyword/regex rule engine first, then a bundled scikit-learn TF-IDF + logistic regression model (see [Classification](#classification)) |
-| Export to Excel or CSV | `GET /api/export/{id}?format=csv` or `?format=xlsx`; UI download buttons on statement detail |
-| Consider real-world scenarios, edge cases and usability | See [Edge cases and real-world scenarios](#edge-cases-and-real-world-scenarios) |
-
-### 3.1 Input handling
-
-| Requirement | Status | Implementation |
-|---|---|---|
-| Accept PDF bank statements from multiple banks | Met | Upload accepts PDF, JPG, JPEG and PNG (images are converted to PDF). Bank detection recognizes SBI, HDFC, ICICI, Axis, Bank of Baroda, Kotak Mahindra, UCO and Union Bank |
-| Support text-based PDFs | Met | Native text extraction through PyMuPDF/pdfplumber |
-| Support image-based PDFs | Met | OCR with PaddleOCR PP-StructureV3 (default), Tesseract, Azure Document Intelligence, Google Document AI or AWS Textract |
-| Handle multiple formats and layouts across banks | Partially met | A single **generic** parser uses table headers and word coordinates, with text-row heuristics as a fallback. There are no dedicated per-bank parsers; rows that cannot be parsed are kept as unresolved rows |
-
-### 3.2 Data extraction
-
-| Field required by the assessment | Status | Notes |
-|---|---|---|
-| Account holder details: account number | Met | Extracted and stored masked |
-| Account holder details: IFSC | Met | Extracted and validated (malformed IFSC is reported by validation) |
-| Account holder details: other ("name, account number, IFSC, etc.") | Partially met | Bank name, branch, statement period and opening/closing balances are extracted when identifiable. **Account holder name extraction is not documented as implemented** |
-| Transaction: Date | Met | Normalized from common date formats |
-| Transaction: Description | Met | Includes continuation lines and UPI/NEFT/IMPS/cheque-style references |
-| Transaction: Debit amount | Met | Debit/credit direction normalized |
-| Transaction: Credit amount | Met | As above |
-| Transaction: Balance | Met | Running balance captured and reconciled |
-
-### 3.2 (second) Classification engine (non-LLM)
-
-| Requirement | Status | Implementation |
-|---|---|---|
-| Heuristic rule-based approach | Met | Active exact, partial or regex keyword rules with priority, direction (debit/credit) awareness and user-defined rules, editable in the Categories & Rules page or via the API |
-| Traditional machine learning model | Met | Bundled scikit-learn/joblib TF-IDF + logistic regression classifier with 20 category labels, applied to transactions not resolved by rules. Accuracy: 97.95% on seen data, 94.29% on unseen data (see [Model performance](#model-performance)) |
-| Must not use an LLM | Met | No generative language model anywhere in the pipeline |
-
-### 4. Output requirements
-
-| Requirement | Status | Implementation |
-|---|---|---|
-| Export to Excel (.xlsx) | Met | Formatted five-sheet workbook (pandas/openpyxl) |
-| Export to CSV (.csv) | Met | Text fields sanitized against spreadsheet formula injection |
-| Include extracted transaction details | Met | Exports contain the statement's transactions, with the same filters as the transaction list (date range, category, method, review flag, amount range, search) |
-| Include assigned category | Met | Each exported transaction carries its assigned category |
-
-### 5. Key features
-
-| Key feature | Where it lives |
-|---|---|
-| Upload and process bank statements | `/statements` page, `POST /api/statements/upload`, `POST /api/statements/{id}/process` |
-| Auto-detect PDF type (text vs image) | `extraction/pdf_detector.py`; threshold settings `TEXT_MIN_CHARS_PER_PAGE` and `OCR_IMAGE_COVERAGE_THRESHOLD`; extraction method recorded per page |
-| Accurate data extraction | Shared parser plus normalization, validation and balance reconciliation to expose extraction errors rather than hide them |
-| Transaction classification without LLM | Rules, then ML fallback, with confidence-based review flags |
-| Export to Excel/CSV | `export/csv_exporter.py`, `export/excel_exporter.py` |
-
-### Edge cases and real-world scenarios
-
-The assessment asks that edge cases and usability features be considered and implemented. Those present in the code:
+## Edge cases and safeguards
 
 | Scenario | Handling |
 |---|---|
@@ -110,26 +56,6 @@ The assessment asks that edge cases and usability features be considered and imp
 | Sensitive data | Masked account numbers, log redaction, CSRF protection and security headers |
 | Usability | Drag-and-drop upload, progress polling, filtering, drawer for corrections, dashboard charts, light/dark theme, Swagger UI |
 | Extensibility | Provider adapters for OCR, parser registry, user-defined categories and rules, standalone model training workflow |
-
-### Known gaps against the assessment
-
-- **Account holder name** is not listed among the extracted metadata fields.
-- **Per-bank layouts** are handled by one generic parser, so accuracy on unusual layouts is not guaranteed; unresolved rows are the safety net.
-- **Unresolved rows** can be inspected but not converted into transactions through the UI.
-- **Production readiness**: no authentication/authorization, in-process (non-distributed) job executor, and SQLite storage by default (see [Production and security notes](#production-and-security-notes)).
-
----
-
-## What it does
-
-- Accepts PDF, JPG, JPEG, and PNG statement uploads. Images are converted to PDF for processing. Uploads are checked for size, signature, readability, and page limits. Password-protected PDFs prompt for a password; only a valid password unlocks and uploads the document. In the browser, each password applies to one PDF only; enter a separate password for each protected PDF.
-- Detects text, scanned, and mixed pages and records the extraction method and OCR warnings for each page.
-- Extracts statement metadata and transaction rows with a shared parser. It recognizes bank names for SBI, HDFC, ICICI, Axis, Bank of Baroda, Kotak Mahindra, UCO, and Union Bank, but parsing itself uses a generic parser rather than separate bank-specific implementations.
-- Normalizes dates, amounts, debit/credit direction, descriptions, balances, and common payment references. Rows that cannot be parsed remain available as unresolved rows; ambiguous transactions are marked for review.
-- Classifies transactions with active keyword rules first, then a bundled machine-learning model for transactions not resolved by rules. Manual category changes are preserved during ordinary reclassification.
-- Checks transaction data, finds exact and possible duplicates, flags selected anomalies, and reconciles running and statement balances.
-- Presents statements, transactions, categories, rules, review indicators, and financial summaries in a responsive web interface.
-- Exports statement transactions as CSV or a formatted five-sheet Excel workbook. CSV text fields are sanitized against spreadsheet formula injection.
 
 ## Architecture
 
@@ -162,7 +88,7 @@ Statement processing is queued in the Flask application's thread executor. The w
 ## Repository layout
 
 ```text
-befree/
+project-root/
 ├── README.md
 ├── model/                         # Standalone classifier training and evaluation
 │   ├── data/
@@ -284,7 +210,7 @@ Open [http://127.0.0.1:5000](http://127.0.0.1:5000). The default configuration i
 
 No `.env` file is required for local development. Use environment variables or a local `.env` file for overrides. If copying `.env.example`, check its `DATABASE_URL` value against the desired Flask-SQLAlchemy instance-relative database path; the code default already points to `instance/bankstatements.db`.
 
-### Quick walkthrough of the assessment flow
+### Quick walkthrough
 
 1. Start the server and open the **Statements** page.
 2. Upload a text-based PDF and an image-based/scanned PDF (fixtures are in `bankstatements/test_uploads/`; `generate-samples` can create synthetic ones).
@@ -402,7 +328,7 @@ All API routes are under `/api`. UUID path parameters are shown as `{id}` below.
 | `GET /api/analytics` | Aggregate analytics across successfully processed statements |
 | `GET /api/analytics/{id}` | Analytics for one statement |
 | `GET /api/dashboard/recent-transactions` | Recent transactions from successfully processed statements |
-| `GET /api/export/{id}?format=csv` or `?format=xlsx` | Download a filtered transaction export (**assessment output requirement**) |
+| `GET /api/export/{id}?format=csv` or `?format=xlsx` | Download a filtered transaction export |
 | `GET /api/openapi.json` | OpenAPI 3.0.3 document used by Swagger UI |
 
 Transaction list and export endpoints support applicable filters for date range, category, classification method, validation status, duplicate status, review flag, amount range, text search, sorting, and pagination. List page sizes default to 50 and are capped at 200; export requests retrieve up to 10,000 rows. The stateless classifier limits descriptions to 4,000 characters.
@@ -454,9 +380,10 @@ Production configuration rejects the development secret. Upload validation, CSRF
 
 ## Current boundaries
 
-- Statement parsing is handled by one generic parser; bank-name recognition does not mean there are dedicated format parsers for each bank.
+- Statement parsing is handled by one generic parser; bank-name recognition does not mean there are dedicated format parsers for each bank. Accuracy on unusual layouts is not guaranteed; unresolved rows are the safety net.
 - Account holder name is not among the documented extracted metadata fields.
-- Background processing uses an in-process executor rather than a distributed job queue.
-- File retention is exposed as a manual CLI operation, not a scheduled cleanup task.
 - Unresolved rows can be inspected in the UI, but the code does not provide an editing workflow to turn an unresolved row into a transaction.
+- Background processing uses an in-process executor rather than a distributed job queue.
+- There is no authentication or authorization, and storage is SQLite by default.
+- File retention is exposed as a manual CLI operation, not a scheduled cleanup task.
 - No roadmap or future feature commitments are defined here; the boundaries above describe only what is not implemented in the current code.
